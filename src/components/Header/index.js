@@ -1,71 +1,64 @@
 import Popup from 'reactjs-popup'
-import React, {useState} from 'react'
-
-import 'reactjs-popup/dist/index.css'
-import {Link} from 'react-router-dom'
+import {withRouter, Link} from 'react-router-dom'
 import {GiHamburgerMenu} from 'react-icons/gi'
-import {BsInfoCircleFill} from 'react-icons/bs'
-import {AiFillHome} from 'react-icons/ai'
 import {IoMdClose} from 'react-icons/io'
+import {AiFillHome} from 'react-icons/ai'
+import {BsInfoCircleFill} from 'react-icons/bs'
 
 import './index.css'
 
-const logoUrl =
-  'https://assets.ccbp.in/frontend/react-js/hamburger-menu-website-logo.png'
-
-const overlayStyles = {
-  width: '100%',
-  height: '500px',
-  display: 'flex',
-}
-
-const Header = () => {
-  const [open, setOpen] = useState(false)
-  const closeModal = () => setOpen(false)
-  return (
-    <nav className="header_container">
-      <div className="logo">
-        <Link to="/">
-          <img src={logoUrl} alt="website logo" width={40} height={40} />
-        </Link>
-      </div>
-      <div className="popup_container">
-        <Popup
-          trigger={
-            <button type="button" data-testid="hamburgerIconButton">
-              <GiHamburgerMenu width={40} height={40} />
+const Header = () => (
+  <div className="nav-header">
+    <div className="nav-content">
+      <Link to="/">
+        <img
+          className="website-logo"
+          src="https://assets.ccbp.in/frontend/react-js/hamburger-menu-website-logo.png"
+          alt="website logo"
+        />
+      </Link>
+      <Popup
+        modal
+        trigger={
+          <button
+            className="hamburger-icon-button"
+            type="button"
+            data-testid="hamburgerIconButton"
+          >
+            <GiHamburgerMenu size="30" />
+          </button>
+        }
+        className="popup-content"
+      >
+        {close => (
+          <div className="modal-container">
+            <button
+              className="close-button"
+              type="button"
+              data-testid="closeButton"
+              onClick={() => close()}
+            >
+              <IoMdClose size="30" color="#616e7c" />
             </button>
-          }
-          modal
-        >
-          {close => (
-            <ul className="homeAndAbout">
-              <button
-                data-testid="closeButton"
-                type="button"
-                className="trigger_button"
-                onClick={() => {
-                  close()
-                }}
-              >
-                <IoMdClose width={20} height={20} />
-              </button>
-              <Link to="/">
-                <li>
-                  <AiFillHome width={30} height={30} /> Home
-                </li>
-              </Link>
-              <Link to="/about">
-                <li>
-                  <BsInfoCircleFill width={30} height={30} /> About
-                </li>
-              </Link>
+            <ul className="nav-links-list">
+              <li className="nav-link-item">
+                <Link className="nav-link" to="/" onClick={() => close()}>
+                  <AiFillHome size="36" />
+                  <p className="nav-link-content">Home</p>
+                </Link>
+              </li>
+              <li className="nav-link-item">
+                <Link className="nav-link" to="/about" onClick={() => close()}>
+                  <BsInfoCircleFill size="32" />
+                  <p className="nav-link-content">About</p>
+                </Link>
+              </li>
             </ul>
-          )}
-        </Popup>
-      </div>
-    </nav>
-  )
-}
+          </div>
+        )}
+      </Popup>
+    </div>
+  </div>
+)
 
-export default Header
+export default withRouter(Header)
